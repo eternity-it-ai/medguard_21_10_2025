@@ -1,14 +1,9 @@
 import React, { useState } from "react";
 // import { createMedicalProcedure } from "@/api/medicalProcedure";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import {
-  Search,
-  AlertTriangle,
-  Loader2,
-  Brain
-} from "lucide-react";
+import { Search, AlertTriangle, Loader2, Brain } from "lucide-react";
 
 import ProcedureForm from "../components/procedure/ProcedureForm";
 import XRayUpload from "../components/procedure/XRayUpload";
@@ -22,7 +17,7 @@ export default function ProcedureCheck() {
     procedure_name: "",
     doctor_name: "",
     execution_date: "",
-    notes: ""
+    notes: "",
   });
 
   const [xrayFile, setXrayFile] = useState(null);
@@ -41,7 +36,7 @@ export default function ProcedureCheck() {
       procedure_name: "",
       doctor_name: "",
       execution_date: "",
-      notes: ""
+      notes: "",
     });
     setXrayFile(null);
     setXrayUrl(null);
@@ -51,20 +46,20 @@ export default function ProcedureCheck() {
   };
 
   const handleFormChange = (field, value) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
     setError(null);
   };
 
   const handleXrayUpload = async (file) => {
     try {
       setXrayFile(file);
-      const response = await fetch(`${API_URL}/upload_image`, {
+      const response = await fetch(`${API_URL}/upload_image/`, {
         method: "POST",
         body: (() => {
           const formData = new FormData();
           formData.append("file", file);
           return formData;
-        })()
+        })(),
       });
 
       if (!response.ok) {
@@ -93,12 +88,12 @@ export default function ProcedureCheck() {
       const response = await fetch(`${API_URL}/audit`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           ...formData,
           xray_url: xrayUrl,
-        })
+        }),
       });
 
       if (!response.ok) {
@@ -112,18 +107,25 @@ export default function ProcedureCheck() {
       const ai_analysis = {
         ...aiAnalysis.evaluation_result.ai_analysis,
         findings: aiAnalysis.evaluation_result.ai_analysis.findings ?? "",
-        recommendations: aiAnalysis.evaluation_result.ai_analysis.recommendations ?? ""
+        recommendations:
+          aiAnalysis.evaluation_result.ai_analysis.recommendations ?? "",
       };
       const results = {
         ai_analysis,
         compliance_status: (() => {
-          if (aiAnalysis.evaluation_result.approval_status === "מאושר") return "approved";
-          if (aiAnalysis.evaluation_result.approval_status === "נדחה") return "rejected";
-          if (aiAnalysis.evaluation_result.approval_status === "דרוש בדיקה נוספת") return "requires_review";
+          if (aiAnalysis.evaluation_result.approval_status === "מאושר")
+            return "approved";
+          if (aiAnalysis.evaluation_result.approval_status === "נדחה")
+            return "rejected";
+          if (
+            aiAnalysis.evaluation_result.approval_status === "דרוש בדיקה נוספת"
+          )
+            return "requires_review";
           return "unknown";
         })(),
-        compliance_notes: aiAnalysis.evaluation_result.ai_analysis.medical_justification,
-        relevant_rules: 7 // placeholder: update if server returns real value
+        compliance_notes:
+          aiAnalysis.evaluation_result.ai_analysis.medical_justification,
+        relevant_rules: 7, // placeholder: update if server returns real value
       };
 
       setAnalysisResults(results);
@@ -134,8 +136,7 @@ export default function ProcedureCheck() {
       } catch (e) {
         console.error("Failed to fetch stats after procedure:", e);
       }
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (error) {
       setError("שגיאה בניתוח הפרוצדורה. אנא נסה שוב.");
       console.error("Analysis error:", error);
@@ -153,8 +154,12 @@ export default function ProcedureCheck() {
               <Search className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-slate-900">בדיקת פרוצדורה רפואית</h1>
-              <p className="text-slate-600 mt-1">בדיקה מיידית של פרוצדורות מתוכננות עם ניתוח AI</p>
+              <h1 className="text-3xl font-bold text-slate-900">
+                בדיקת פרוצדורה רפואית
+              </h1>
+              <p className="text-slate-600 mt-1">
+                בדיקה מיידית של פרוצדורות מתוכננות עם ניתוח AI
+              </p>
             </div>
           </div>
         </div>
@@ -185,7 +190,9 @@ export default function ProcedureCheck() {
               <CardContent className="p-6">
                 <Button
                   onClick={analyzeProcedure}
-                  disabled={isAnalyzing || !formData.patient_id || !xrayUrl || isLocked}
+                  disabled={
+                    isAnalyzing || !formData.patient_id || !xrayUrl || isLocked
+                  }
                   className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg h-14 text-lg font-semibold"
                 >
                   {isLocked ? (
