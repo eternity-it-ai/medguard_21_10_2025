@@ -9,6 +9,10 @@ from logic import process
 router = APIRouter()
 
 
+@router.get("/health")
+async def health_check():
+    return {"status":"Alive"}
+
 @router.post("/upload_image/")
 async def upload_image(file: UploadFile):
     try:
@@ -31,10 +35,10 @@ async def audit_procedure(data: AuditRequest):
     # This is a placeholder for auditing logic
     # For now, just return the received data to confirm it was received correctly
     evaluation_result = process(data)
-    res = mongo.set_procedure_data(data, evaluation_result)
+    # res = mongo.set_procedure_data(data, evaluation_result)
     return {
         "message": "Audit received",
-        "inserted": res.acknowledged,
+        "inserted": "ASdasd",
         "procedure_code": data.procedure_code,
         "procedure_name": data.procedure_name,
         "xray_url": data.xray_url,
