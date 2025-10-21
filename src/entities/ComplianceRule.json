@@ -1,0 +1,54 @@
+{
+	"name": "ComplianceRule",
+	"type": "object",
+	"properties": {
+	  "rule_name": {
+		"type": "string",
+		"description": "שם הכלל"
+	  },
+	  "procedure_codes": {
+		"type": "array",
+		"items": {
+		  "type": "string"
+		},
+		"description": "קודי פרוצדורות שהכלל חל עליהם"
+	  },
+	  "condition": {
+		"type": "string",
+		"description": "תנאי הכלל"
+	  },
+	  "action": {
+		"type": "string",
+		"enum": [
+		  "approve",
+		  "reject",
+		  "require_review"
+		],
+		"description": "פעולה לביצוע"
+	  },
+	  "severity": {
+		"type": "string",
+		"enum": [
+		  "low",
+		  "medium",
+		  "high",
+		  "critical"
+		],
+		"description": "חומרת הכלל"
+	  },
+	  "is_active": {
+		"type": "boolean",
+		"default": true,
+		"description": "האם הכלל פעיל"
+	  },
+	  "description": {
+		"type": "string",
+		"description": "תיאור הכלל"
+	  }
+	},
+	"required": [
+	  "rule_name",
+	  "condition",
+	  "action"
+	]
+  }

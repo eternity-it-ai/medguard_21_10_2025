@@ -1,0 +1,72 @@
+{
+	"name": "MedicalProcedure",
+	"type": "object",
+	"properties": {
+	  "patient_id": {
+		"type": "string",
+		"description": "מזהה המטופל"
+	  },
+	  "procedure_code": {
+		"type": "string",
+		"description": "קוד הפרוצדורה הרפואית"
+	  },
+	  "procedure_name": {
+		"type": "string",
+		"description": "שם הפרוצדורה"
+	  },
+	  "doctor_name": {
+		"type": "string",
+		"description": "שם הרופא המבצע"
+	  },
+	  "execution_date": {
+		"type": "string",
+		"format": "date",
+		"description": "תאריך ביצוע הפרוצדורה"
+	  },
+	  "xray_url": {
+		"type": "string",
+		"description": "קישור לצילום הרנטגן"
+	  },
+	  "approval_status": {
+		"type": "string",
+		"enum": [
+		  "approved",
+		  "pending",
+		  "rejected",
+		  "requires_review"
+		],
+		"description": "סטטוס האישור"
+	  },
+	  "ai_analysis": {
+		"type": "string",
+		"description": "תוצאות ניתוח ה-AI"
+	  },
+	  "compliance_check": {
+		"type": "string",
+		"description": "תוצאות בדיקת החוקיות"
+	  },
+	  "risk_level": {
+		"type": "string",
+		"enum": [
+		  "low",
+		  "medium",
+		  "high"
+		],
+		"description": "רמת סיכון"
+	  },
+	  "notes": {
+		"type": "string",
+		"description": "הערות נוספות"
+	  },
+	  "is_retrospective": {
+		"type": "boolean",
+		"default": false,
+		"description": "האם זו בדיקה רטרואקטיבית"
+	  }
+	},
+	"required": [
+	  "patient_id",
+	  "procedure_code",
+	  "procedure_name"
+	]
+  }
